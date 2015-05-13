@@ -34,6 +34,7 @@ def finish_order(request):
   # Change the accessId, title, content
   push_response = xinge.PushAccountAndroid(
       000, SECRET_KEY, 'title', 'content', usr_account)
+  logger.info('Push response' + push_response)
   ############################################################################
   # Return Success message
   response = HttpResponse() # Default status is 200 OK
@@ -42,10 +43,10 @@ def finish_order(request):
 def finish_order_db_write(order_id):
     # Modify this
     config = {
-      'user': 'scott',
-      'password': 'tiger',
-      'host': '127.0.0.1',
-      'database': 'employees',
+      'user': 'root',
+      'password': '?',
+      'host': '10.66.122.203:3306',
+      'database': 'orders',
       'raise_on_warnings': True,
     }
     

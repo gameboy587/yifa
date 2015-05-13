@@ -45,10 +45,10 @@ def finish_order_db_write(order_id):
   db = pyodbc.connect('DRIVER={SQL Server};SERVER=10.143.82.133:?;DATABASE=?;UID=sa;PWD=123456 ')
   cursor = db.cursor()
   # Get User ID
-  cursor.execute('SELECT user_id FROM orders WHERE order_id=' + order_id)
+  cursor.execute('SELECT userPhone FROM T_Order WHERE orderId=' + order_id)
   user_id = cursor.fetchone()[0]
   # Mark order as finished
-  cursor.execute('UPDATE orders SET finished=true where order_id=' + order_id)
+  cursor.execute('UPDATE T_Order SET status=2 where orderId=' + order_id)
   db.commit()
   db.close()
   return user_id

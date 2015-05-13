@@ -1,6 +1,6 @@
 import logging
 import json
-import mysql.connector
+import pyodbc
 
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -42,20 +42,13 @@ def finish_order(request):
 
 def finish_order_db_write(order_id):
     # Modify this
-    config = {
-      'user': 'root',
-      'password': '?',
-      'host': '10.66.122.203:3306',
-      'database': 'orders',
-      'raise_on_warnings': True,
-    }
-    
-    db = mysql.connector.connect(**config)
+    db = pyodbc.connect('DRIVER={SQL Server};SERVER=10.143.82.133:?;DATABASE=?;UID=sa;PWD=123456 ')
     cursor = db.cursor()
     # Get User ID
     cursor.execute('SELECT user_id FROM orders WHERE order_id=' + order_id)
-    user_id = [row[0] for row in cursor.fetchall()]
+    user_id = cursor.fetchone()[0]
     # Mark order as finished
     cursor.execute('UPDATE orders SET finished=true where order_id=' + order_id)
+    db.commit()
     db.close()
     return user_id
